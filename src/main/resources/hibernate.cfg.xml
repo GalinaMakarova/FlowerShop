@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:h2:~/h2db</property>
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.username">sys</property>
+        <property name="connection.password">123</property>
+        <property name="show_sql">false</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <mapping class="entities.Employee"/>
+        <mapping class="entities.Store"/>
+        <mapping class="entities.Flower"/>
+        <mapping class="entities.Country"/>
+
+
+    </session-factory>
+</hibernate-configuration>
