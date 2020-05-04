@@ -26,9 +26,9 @@ public class FlowerRepository extends SessionUtil implements DaoCRUD<Flower> {
     @Override
     public void add(Flower flower) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
         session.save(flower);
-        tx1.commit();
+        transaction.commit();
         session.close();
     }
 

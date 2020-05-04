@@ -7,14 +7,12 @@
         <property name="connection.username">sys</property>
         <property name="connection.password">123</property>
         <property name="show_sql">false</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 
         <mapping class="entities.Employee"/>
         <mapping class="entities.Store"/>
         <mapping class="entities.Flower"/>
         <mapping class="entities.Country"/>
-
-
     </session-factory>
 </hibernate-configuration>
