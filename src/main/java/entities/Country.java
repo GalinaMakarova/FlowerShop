@@ -21,7 +21,7 @@ public class Country {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "countries")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "countries")
     private Set<Flower> flowers = new HashSet<>();
 
     public Country() {
@@ -78,12 +78,11 @@ public class Country {
         if (o == null || getClass() != o.getClass()) return false;
         Country country = (Country) o;
         return Objects.equals(id, country.id) &&
-                Objects.equals(name, country.name) &&
-                Objects.equals(flowers, country.flowers);
+                Objects.equals(name, country.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, flowers);
+        return Objects.hash(id, name);
     }
 }

@@ -23,16 +23,11 @@ public class Flower {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_store")
     private Store store;
 
-    @ManyToMany(
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
-    )
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "flower_country",
             joinColumns = @JoinColumn(name = "flower_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id")
@@ -101,8 +96,8 @@ public class Flower {
         Set<Country> countries = HibernateUtil.getSessionFactory().openSession().get(Flower.class, flower.getId()).getCountries();
         String result = "";
         if (countries.size() > 0) {
-            for (Country country : countries){
-                if (result.length() > 0){
+            for (Country country : countries) {
+                if (result.length() > 0) {
                     result += ", " + country.toString();
                 } else {
                     result = country.toString();
@@ -118,14 +113,12 @@ public class Flower {
         if (o == null || getClass() != o.getClass()) return false;
         Flower flower = (Flower) o;
         return id.equals(flower.id) &&
-                name.equals(flower.name) &&
-                Objects.equals(store, flower.store) &&
-                Objects.equals(countries, flower.countries);
+                name.equals(flower.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, store, countries);
+        return Objects.hash(id, name);
     }
 }
 

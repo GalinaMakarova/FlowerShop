@@ -1,9 +1,15 @@
 package com.shop;
 
+
+import utils.HibernateUtil;
+
 import repositories.EmployeeRepository;
 import repositories.CountryRepository;
 import repositories.FlowerRepository;
 import repositories.StoreRepository;
+
+import entities.Country;
+import entities.Flower;
 
 public class Main {
     static FlowerRepository flowerRepository = new FlowerRepository();

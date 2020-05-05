@@ -11,3 +11,6 @@ The project has 4 entities:
 * Employee and Shop have association OneToOne, Shop can exist without Employee, but Employee without Shop should be removed automatically.
 * Country and Flower have association ManyToMany, Country can exist without Flower, Flower without Country - not
 * Shop and Flower have association OneToMany, one Shop for Many Flower objects. Flower without Shop cannot exist, Shop without Flower - can.
+
+
+# For checking please start all tests #

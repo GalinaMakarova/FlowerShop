@@ -1,22 +1,16 @@
 package repositories;
 
 import entities.Employee;
-import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import utils.DBConnection;
-import utils.HibernateUtil;
 
 import static org.junit.Assert.assertEquals;
 
 class EmployeeRepositoryTest {
-    static DBConnection dbConnection;
     static EmployeeRepository employeeRepository;
 
     @BeforeAll
     static void init() {
-        dbConnection = new DBConnection();
-        dbConnection.getConnection();
         employeeRepository = new EmployeeRepository();
     }
 
@@ -32,18 +26,14 @@ class EmployeeRepositoryTest {
         employeeRepository.add(employee);
         //checking that Employees count has been changed to count+1
         assertEquals(count + 1, employeeRepository.findAll().size());
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all Employees from repository and from DataBase
-        assertEquals(employeeRepository.findAll().size(), session.createNamedQuery("Employee.findAll", Employee.class).getResultList().size());
-        session.close();
+        assertEquals(employeeRepository.findAll().size(), employeeRepository.findAllFromDB().size());
     }
 
     @Test
     void findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all Employees from repository and from DataBase
-        assertEquals(employeeRepository.findAll().size(), session.createNamedQuery("Employee.findAll", Employee.class).getResultList().size());
-        session.close();
+        assertEquals(employeeRepository.findAll().size(), employeeRepository.findAllFromDB().size());
     }
 
     @Test
@@ -53,10 +43,8 @@ class EmployeeRepositoryTest {
         Employee employee = new Employee();
         employee.setName(employeeName);
         employeeRepository.add(employee);
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all Employees from repository and from DataBase
-        assertEquals(employeeRepository.findById(employee.getId()), session.createNamedQuery("Employee.findById", Employee.class).setParameter("id", employee.getId()).getSingleResult());
-        session.close();
+        assertEquals(employeeRepository.findById(employee.getId()), employeeRepository.findByIdFromDB(employee.getId()));
     }
 
     @Test
@@ -70,11 +58,8 @@ class EmployeeRepositoryTest {
         employeeName = "Dr.Who";
         employee.setName(employeeName);
         employeeRepository.update(employee);
-        Long id = employee.getId();
         //comparing Employee.name found from repository and from DataBase
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        assertEquals(employeeRepository.findById(id).getName(), session.createNamedQuery("Employee.findById", Employee.class).setParameter("id", employee.getId()).getSingleResult().getName());
-        session.close();
+        assertEquals(employeeRepository.findById(employee.getId()), employeeRepository.findByIdFromDB(employee.getId()));
     }
 
     @Test
@@ -91,9 +76,7 @@ class EmployeeRepositoryTest {
         //checking that count+1 is current count of Employees
         assertEquals(count, employeeRepository.findAll().size());
         //comparing Employee found from repository and from DataBase
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        assertEquals(employeeRepository.findAll().size(), session.createNamedQuery("Employee.findAll", Employee.class).getResultList().size());
-        session.close();
+        assertEquals(employeeRepository.findAll().size(), employeeRepository.findAllFromDB().size());
 
         //deleting the Employee and changing Employees count to -1
         employeeRepository.delete(employee);
@@ -101,8 +84,6 @@ class EmployeeRepositoryTest {
         //checking that current count of Employees equals to "count" value
         assertEquals(count, employeeRepository.findAll().size());
         //comparing Employee found from repository and from DataBase
-        session = HibernateUtil.getSessionFactory().openSession();
-        assertEquals(employeeRepository.findAll().size(), session.createNamedQuery("Employee.findAll", Employee.class).getResultList().size());
-        session.close();
+        assertEquals(employeeRepository.findAll().size(), employeeRepository.findAllFromDB().size());
     }
 }

@@ -24,11 +24,11 @@ public class Store {
     @Column(name = "address")
     private String address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "employee")
     private Employee employee;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Flower> flowers = new HashSet<>();
 
     public Long getId() {
@@ -103,14 +103,12 @@ public class Store {
         Store store = (Store) o;
         return id.equals(store.id) &&
                 name.equals(store.name) &&
-                Objects.equals(address, store.address) &&
-                Objects.equals(employee, store.employee) &&
-                Objects.equals(flowers, store.flowers);
+                Objects.equals(address, store.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, employee, flowers);
+        return Objects.hash(id, name, address);
     }
 }
 

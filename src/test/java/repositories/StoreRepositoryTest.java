@@ -1,22 +1,16 @@
 package repositories;
 
 import entities.Store;
-import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import utils.DBConnection;
-import utils.HibernateUtil;
 
 import static org.junit.Assert.assertEquals;
 
 class StoreRepositoryTest {
-    static DBConnection dbConnection;
     static StoreRepository storeRepository;
 
     @BeforeAll
     static void init() {
-        dbConnection = new DBConnection();
-        dbConnection.getConnection();
         storeRepository = new StoreRepository();
     }
 
@@ -32,18 +26,14 @@ class StoreRepositoryTest {
         storeRepository.add(store);
         //checking that stores count has been changed to count+1
         assertEquals(count + 1, storeRepository.findAll().size());
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all stores from repository and from DataBase
-        assertEquals(storeRepository.findAll().size(), session.createNamedQuery("Store.findAll", Store.class).getResultList().size());
-        session.close();
+        assertEquals(storeRepository.findAll().size(), storeRepository.findAllFromDB().size());
     }
 
     @Test
     void findAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all stores from repository and from DataBase
-        assertEquals(storeRepository.findAll().size(), session.createNamedQuery("Store.findAll", Store.class).getResultList().size());
-        session.close();
+        assertEquals(storeRepository.findAll().size(), storeRepository.findAllFromDB().size());
     }
 
     @Test
@@ -54,9 +44,7 @@ class StoreRepositoryTest {
         store.setName(storeName);
         storeRepository.add(store);
         //comparing Store found from repository and from DataBase
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        assertEquals(storeRepository.findById(store.getId()), session.createNamedQuery("Store.findById", Store.class).setParameter("id", store.getId()).getSingleResult());
-        session.close();
+        assertEquals(storeRepository.findById(store.getId()), storeRepository.findByIdFromDB(store.getId()));
     }
 
     @Test
@@ -70,11 +58,8 @@ class StoreRepositoryTest {
         storeName = "Auchan";
         store.setName(storeName);
         storeRepository.update(store);
-        Long id = store.getId();
         //comparing Store found from repository and from DataBase
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        assertEquals(storeRepository.findById(store.getId()).getName(), session.createNamedQuery("Store.findById", Store.class).setParameter("id", store.getId()).getSingleResult().getName());
-        session.close();
+        assertEquals(storeRepository.findById(store.getId()), storeRepository.findByIdFromDB(store.getId()));
     }
 
     @Test
@@ -90,19 +75,15 @@ class StoreRepositoryTest {
         count = count + 1;
         //checking that count+1 is current count of stores
         assertEquals(count, storeRepository.findAll().size());
-        Session session = HibernateUtil.getSessionFactory().openSession();
         //comparing all stores from repository and from DataBase
-        assertEquals(storeRepository.findAll().size(), session.createNamedQuery("Store.findAll", Store.class).getResultList().size());
-        session.close();
+        assertEquals(storeRepository.findAll().size(), storeRepository.findAllFromDB().size());
 
         //deleting the Store and changing stores count to -1
         storeRepository.delete(store);
         count = count - 1;
         //checking that current count of stores equals to "count" value
         assertEquals(count, storeRepository.findAll().size());
-        session = HibernateUtil.getSessionFactory().openSession();
         //comparing all stores from repository and from DataBase
-        assertEquals(storeRepository.findAll().size(), session.createNamedQuery("Store.findAll", Store.class).getResultList().size());
-        session.close();
+        assertEquals(storeRepository.findAll().size(), storeRepository.findAllFromDB().size());
     }
 }

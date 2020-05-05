@@ -19,6 +19,7 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
+    //used for Main.java only
     public static void shutdown() {
         getSessionFactory().close();
     }
