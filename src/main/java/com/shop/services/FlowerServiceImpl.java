@@ -2,6 +2,7 @@ package com.shop.services;
 
 import com.shop.dao.FlowerRepository;
 import com.shop.entities.Flower;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.logging.Logger;
 
 @Service
 public class FlowerServiceImpl implements DaoService<Flower> {
+    @Autowired
     private final FlowerRepository flowerRepository;
-    private static Logger log = Logger.getLogger(FlowerServiceImpl.class.getName());
+    private static final Logger log = Logger.getLogger(FlowerServiceImpl.class.getName());
 
     public FlowerServiceImpl(FlowerRepository flowerRepository) {
         this.flowerRepository = flowerRepository;

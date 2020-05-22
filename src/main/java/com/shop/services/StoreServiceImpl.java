@@ -2,6 +2,7 @@ package com.shop.services;
 
 import com.shop.dao.StoreRepository;
 import com.shop.entities.Store;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.logging.Logger;
 
 @Service
 public class StoreServiceImpl implements DaoService<Store> {
+    @Autowired
     private final StoreRepository storeRepository;
-    private static Logger log = Logger.getLogger(StoreServiceImpl.class.getName());
+    private static final Logger log = Logger.getLogger(StoreServiceImpl.class.getName());
 
     public StoreServiceImpl(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;

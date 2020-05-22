@@ -3,7 +3,7 @@ package com.shop.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.entities.Store;
 import com.shop.services.DaoService;
-import com.shop.testConfigs.TestBaseConfig;
+import com.shop.TestBaseConfig;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

@@ -2,6 +2,7 @@ package com.shop.services;
 
 import com.shop.dao.EmployeeRepository;
 import com.shop.entities.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.logging.Logger;
 
 @Service
 public class EmployeeServiceImpl implements DaoService<Employee> {
+    @Autowired
     private final EmployeeRepository employeeRepository;
-    private static Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
+    private static final Logger log = Logger.getLogger(EmployeeServiceImpl.class.getName());
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;

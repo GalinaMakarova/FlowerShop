@@ -1,4 +1,4 @@
-package com.shop.testConfigs;
+package com.shop;
 
 import com.shop.dao.*;
 import com.shop.entities.*;

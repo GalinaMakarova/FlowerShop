@@ -1,8 +1,7 @@
 package com.shop.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shop.testConfigs.TestBaseConfig;
-import com.shop.controllers.CountryController;
+import com.shop.TestBaseConfig;
 import com.shop.entities.Country;
 import com.shop.services.DaoService;
 import lombok.SneakyThrows;
