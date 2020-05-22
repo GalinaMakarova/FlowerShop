@@ -33,7 +33,7 @@ public class FlowerServiceImpl implements DaoService<Flower> {
             flowerRepository.add(flower);
             log.info("Flower added: " + flower.toString());
         } else {
-            log.info(flower.toString() + " is already in the repository");
+            log.info("WARNING: " + flower.toString() + " is already in the repository");
         }
     }
 

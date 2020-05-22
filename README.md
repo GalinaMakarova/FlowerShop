@@ -19,19 +19,8 @@ Set your database information for the following properties:
 * spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
 * spring.datasource.username=postgres
 * spring.datasource.password=123
+* packageName=com.shop
 
-
-
------
------
------
-не хватает:
-1. контроллеров для каждой сущности (Employee, Store, Flower)
-2. странички для каждой сущности в отдельности
-3. стартовая страница
-4. Тесты для каждой crud операции по каждой сущности
-5. Тесты для связок OneToOne/OneToMany/ManyToOne/ManyToMany
-6. Скрипты на добавление даты
 
 Вопросы: 
 1. H2 была заменена на PostgreSQL, H2 удалялась для каждого запуска, подготовленные скрипты не прогонялись сразу после старта бд, но перед стартом приложения, непонятно почему

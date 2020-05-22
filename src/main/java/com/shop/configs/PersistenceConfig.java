@@ -1,6 +1,7 @@
 package com.shop.configs;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -15,6 +16,9 @@ import java.util.Properties;
 
 @Configuration
 public class PersistenceConfig {
+    @Value("${packageName}")
+    private String packageName;
+
     org.springframework.core.env.Environment env;
 
     public PersistenceConfig(org.springframework.core.env.Environment env) {
@@ -31,7 +35,7 @@ public class PersistenceConfig {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
-        entityManagerFactory.setPackagesToScan("com.shop.entities");
+        entityManagerFactory.setPackagesToScan(packageName);
         entityManagerFactory.setJpaProperties(hibernateJpaProperties());
         return entityManagerFactory;
     }

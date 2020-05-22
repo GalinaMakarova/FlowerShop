@@ -22,7 +22,7 @@ public class CountryServiceImpl implements DaoService<Country> {
     @Override
     public List<Country> findAll() {
         List<Country> countries = countryDAO.findAll();
-        log.info("!!!!!!!!!!!!!!!!!!!!!----------- " + countries.size());
+        log.info("COUNTRY: number of items found - " + countries.size());
         return countries;
     }
 
@@ -38,7 +38,7 @@ public class CountryServiceImpl implements DaoService<Country> {
             countryDAO.add(country);
             log.info("Country added: " + country.toString());
         } else {
-            log.info(country.toString() + " is already in the repository");
+            log.info("WARNING: " + country.toString() + " is already in the repository");
         }
 
     }

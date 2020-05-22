@@ -4,6 +4,7 @@ import com.shop.dao.*;
 import com.shop.entities.*;
 import com.shop.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,9 @@ import java.util.Properties;
 public class TestBaseConfig {
     @Autowired
     private Environment env;
+
+    @Value("${packageName}")
+    private String packageName;
 
     @Bean
     public EntityManager em() {
@@ -65,15 +69,12 @@ public class TestBaseConfig {
         return new StoreServiceImpl((StoreRepository) storeDAO);
     }
 
-
-
-
     @Bean("entityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
-        entityManagerFactory.setPackagesToScan("com.shop");
+        entityManagerFactory.setPackagesToScan(packageName);
         entityManagerFactory.setJpaProperties(hibernateJpaProperties());
         return entityManagerFactory;
     }
