@@ -4,7 +4,7 @@ import com.shop.dao.FlowerRepository;
 import com.shop.entities.Flower;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -17,7 +17,7 @@ public class FlowerServiceImpl implements DaoService<Flower> {
     }
 
     @Override
-    public Set<Flower> findAll() {
+    public List<Flower> findAll() {
         return flowerRepository.findAll();
     }
 
@@ -28,8 +28,13 @@ public class FlowerServiceImpl implements DaoService<Flower> {
 
     @Override
     public void add(Flower flower) {
-        flowerRepository.add(flower);
-        log.info("Flower added: " + flower.toString());
+        List<Flower> flowers = findAll();
+        if (!flowers.contains(flower)) {
+            flowerRepository.add(flower);
+            log.info("Flower added: " + flower.toString());
+        } else {
+            log.info(flower.toString() + " is already in the repository");
+        }
     }
 
     @Override
@@ -39,9 +44,9 @@ public class FlowerServiceImpl implements DaoService<Flower> {
     }
 
     @Override
-    public void delete(Flower flower) {
-        String bufStr = flower.toString();
-        flowerRepository.delete(flower);
+    public void delete(Long id) {
+        String bufStr = flowerRepository.findById(id).toString();
+        flowerRepository.delete(id);
         log.info("Flower removed: " + bufStr);
     }
 }

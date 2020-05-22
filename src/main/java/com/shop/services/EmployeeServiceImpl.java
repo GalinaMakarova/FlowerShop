@@ -4,7 +4,7 @@ import com.shop.dao.EmployeeRepository;
 import com.shop.entities.Employee;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
     }
 
     @Override
-    public Set<Employee> findAll() {
+    public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 
@@ -28,8 +28,23 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
 
     @Override
     public void add(Employee employee) {
-        employeeRepository.add(employee);
-        log.info("Employee added: " + employee.toString());
+        List<Employee> employees = findAll();
+        if (!employees.contains(employee)) {
+            employeeRepository.add(employee);
+            log.info("Employee added: " + employee.toString());
+        } else {
+            String name = employee.getName();
+            try {
+                int i = Integer.parseInt(name.substring(name.length() - 1));
+                i = i + 1;
+                name = name.substring(0, name.length() - 1) + i;
+            } catch (Exception e) {
+                name = name + 1;
+            }
+            employee.setName(name);
+            employeeRepository.add(employee);
+            log.info("Employee copy added: " + employee.toString());
+        }
     }
 
     @Override
@@ -39,9 +54,9 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
     }
 
     @Override
-    public void delete(Employee employee) {
-        String bufStr = employee.toString();
-        employeeRepository.delete(employee);
+    public void delete(Long id) {
+        String bufStr = employeeRepository.findById(id).toString();
+        employeeRepository.delete(id);
         log.info("Employee removed: " + bufStr);
     }
 }

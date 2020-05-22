@@ -2,84 +2,66 @@ package com.shop.dao;
 
 import com.shop.entities.Store;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class StoreRepository implements DaoCRUD<Store> {
-    private final EntityManagerFactory entityManagerFactory;
+    EntityManager entityManager;
 
-    public StoreRepository(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    public StoreRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
-    @Transactional
     @Override
-    public Set<Store> findAll() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        return new HashSet<>(em.createQuery("FROM Store", Store.class).getResultList());
+    public List<Store> findAll() {
+        return entityManager.createQuery("FROM Store", Store.class).getResultList();
     }
 
-    @Transactional
     @Override
     public Store findById(Long id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        Store result = em
-                .createQuery("From Store as e where e.id= ?1", Store.class)
+        return entityManager
+                .createQuery("FROM Store AS s WHERE s.id= ?1", Store.class)
                 .setParameter(1, id)
                 .getResultList().get(0);
-        em.close();
-        return result;
     }
 
-    @Transactional
     @Override
     public void add(Store store) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(store);
+        entityManager.getTransaction().begin();
+        entityManager.persist(store);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
     public void update(Store store) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(store);
+        entityManager.getTransaction().begin();
+        entityManager.merge(store);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
-    public void delete(Store store) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Store WHERE id=:id").setParameter("id", store.getId()).executeUpdate();
+    public void delete(Long id) {
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("DELETE FROM Store WHERE id=:id").setParameter("id", id).executeUpdate();
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 }
 

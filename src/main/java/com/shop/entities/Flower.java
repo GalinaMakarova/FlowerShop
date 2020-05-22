@@ -1,29 +1,33 @@
 package com.shop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Flower.class)
 public class Flower {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_store")
     private Store store;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "flower_country",
             joinColumns = @JoinColumn(name = "flower_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id")
     )
-    private Set<Country> countries;
+    private List<Country> countryList;
 
     @Override
     public String toString() {

@@ -4,7 +4,7 @@ import com.shop.dao.StoreRepository;
 import com.shop.entities.Store;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -17,7 +17,7 @@ public class StoreServiceImpl implements DaoService<Store> {
     }
 
     @Override
-    public Set<Store> findAll() {
+    public List<Store> findAll() {
         return storeRepository.findAll();
     }
 
@@ -39,9 +39,9 @@ public class StoreServiceImpl implements DaoService<Store> {
     }
 
     @Override
-    public void delete(Store store) {
-        String bufStr = store.toString();
-        storeRepository.delete(store);
+    public void delete(Long id) {
+        String bufStr = storeRepository.findById(id).toString();
+        storeRepository.delete(id);
         log.info("Store removed: " + bufStr);
     }
 }

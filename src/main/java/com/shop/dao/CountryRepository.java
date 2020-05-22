@@ -2,83 +2,65 @@ package com.shop.dao;
 
 import com.shop.entities.Country;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class CountryRepository implements DaoCRUD<Country> {
-    private final EntityManagerFactory entityManagerFactory;
+    EntityManager entityManager;
 
-    public CountryRepository(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    public CountryRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
-    @Transactional
     @Override
-    public Set<Country> findAll() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        return new HashSet<>(em.createQuery("FROM Country", Country.class).getResultList());
+    public List<Country> findAll() {
+        return entityManager.createQuery("FROM Country", Country.class).getResultList();
     }
 
-    @Transactional
     @Override
     public Country findById(Long id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        Country result = em.createQuery("From Country as c where c.id= ?1", Country.class)
+        return entityManager.createQuery("FROM Country AS c WHERE c.id= ?1", Country.class)
                 .setParameter(1, id)
                 .getResultList().get(0);
-        em.close();
-        return result;
     }
 
-    @Transactional
     @Override
     public void add(Country country) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(country);
+        entityManager.getTransaction().begin();
+        entityManager.persist(country);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
     public void update(Country country) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(country);
+        entityManager.getTransaction().begin();
+        entityManager.merge(country);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
-    public void delete(Country country) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Country WHERE id=:id").setParameter("id", country.getId()).executeUpdate();
+    public void delete(Long id) {
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("DELETE FROM Country WHERE id=:id").setParameter("id", id).executeUpdate();
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 }
 

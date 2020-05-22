@@ -2,11 +2,11 @@ package com.shop.dao;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Set;
+import java.util.List;
 
 public interface DaoCRUD<T> {
     @Transactional
-    Set<T> findAll();
+    List<T> findAll();
 
     @Transactional
     T findById(Long id);
@@ -18,5 +18,5 @@ public interface DaoCRUD<T> {
     void update(T t);
 
     @Transactional
-    void delete(T t);
+    void delete(Long id);
 }

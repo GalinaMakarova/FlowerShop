@@ -1,22 +1,24 @@
 package com.shop.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Data
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Country.class)
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "countries")
-    private Set<Flower> flowers = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "countryList")
+    private List<Flower> flowerList;
 
     @Override
     public String toString() {

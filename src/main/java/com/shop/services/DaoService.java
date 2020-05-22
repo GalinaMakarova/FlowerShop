@@ -1,11 +1,11 @@
 package com.shop.services;
 
-import java.util.Set;
+import java.util.List;
 
 public interface DaoService<T>{
-    Set<T> findAll();
+    List<T> findAll();
     T findById(Long id);
     void add(T t);
     void update(T t);
-    void delete(T t);
+    void delete(Long id);
 }

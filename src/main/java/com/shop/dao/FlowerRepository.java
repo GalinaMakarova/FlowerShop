@@ -2,83 +2,65 @@ package com.shop.dao;
 
 import com.shop.entities.Flower;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.RollbackException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Repository
 public class FlowerRepository implements DaoCRUD<Flower> {
-    private final EntityManagerFactory entityManagerFactory;
+    EntityManager entityManager;
 
-    public FlowerRepository(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+    public FlowerRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
-    @Transactional
     @Override
-    public Set<Flower> findAll() {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        return new HashSet<>(em.createQuery("FROM Flower", Flower.class).getResultList());
+    public List<Flower> findAll() {
+        return entityManager.createQuery("FROM Flower", Flower.class).getResultList();
     }
 
-    @Transactional
     @Override
     public Flower findById(Long id) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        Flower result = em.createQuery("From Flower as e where e.id= ?1", Flower.class)
+        return entityManager.createQuery("FROM Flower AS f WHERE f.id= ?1", Flower.class)
                 .setParameter(1, id)
                 .getResultList().get(0);
-        em.close();
-        return result;
     }
 
-    @Transactional
     @Override
     public void add(Flower flower) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(flower);
+        entityManager.getTransaction().begin();
+        entityManager.persist(flower);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
     public void update(Flower flower) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.merge(flower);
+        entityManager.getTransaction().begin();
+        entityManager.merge(flower);
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 
-    @Transactional
     @Override
-    public void delete(Flower flower) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Flower WHERE id=:id").setParameter("id", flower.getId()).executeUpdate();
+    public void delete(Long id) {
+        entityManager.getTransaction().begin();
+        entityManager.createQuery("DELETE FROM Flower WHERE id=:id").setParameter("id", id).executeUpdate();
         try {
-            em.getTransaction().commit();
+            entityManager.getTransaction().commit();
         } catch (RollbackException exception) {
-            em.getTransaction().rollback();
+            entityManager.getTransaction().rollback();
             exception.printStackTrace();
         }
-        em.close();
     }
 }
 
