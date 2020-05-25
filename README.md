@@ -23,16 +23,13 @@ Set your database information for the following properties:
 
 ---
 
-#Created: #
-1. JPA part - Entities, Repositories, Services
-2. Controllers for all entities
-3. Test for all controllers
-4. Test for JPA part - add operation only
+# Created for Markup Languages: #
+1. Mapper for List<T> ot JSON part
+2. Mapper for JSON to List<T> part
+3. Tests for both mappers
+4. Before JSON to List<T> part test inputFile.json should exist in the project folder
+5. After List<T> ot JSON part test outputFile.json should be created automatically 
+
+
 
 ---
----
-
-Вопросы: 
-1. H2 была заменена на PostgreSQL, H2 удалялась для каждого запуска, подготовленные скрипты не прогонялись сразу после старта бд, но перед стартом приложения, непонятно почему
-2. Для DaoCRUDImpl получается методы идентичные по add/update. Можно ли на этом уровне проставить логгер или нет, если нет, то почему
-3. 

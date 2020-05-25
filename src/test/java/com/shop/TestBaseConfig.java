@@ -24,6 +24,9 @@ public class TestBaseConfig {
     @Value("${packageName}")
     private String packageName;
 
+    @Value("${projectPath}")
+    private String projectPath;
+
     @Bean
     public EntityManager em() {
         return Objects.requireNonNull(entityManagerFactory().getObject()).createEntityManager();

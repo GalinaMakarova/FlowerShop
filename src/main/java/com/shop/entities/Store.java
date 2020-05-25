@@ -1,6 +1,7 @@
 package com.shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
@@ -18,11 +19,13 @@ public class Store {
     private String name;
     private String address;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)//fetch = FetchType.EAGER
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "employee")
+    @JsonIgnoreProperties("store")
     private Employee employee;
 
     @OneToMany(mappedBy = "store", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("store")
     private List<Flower> flowers;
 
     @Override
