@@ -25,7 +25,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 @ContextConfiguration(classes = {
         TestBaseConfig.class
 })
-@TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CRUDTest {
     @Autowired

@@ -35,7 +35,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 })
 @WebAppConfiguration
 @EnableWebMvc
-@TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CountryControllerTest {
     private MockMvc mvc;

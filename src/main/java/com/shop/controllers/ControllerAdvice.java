@@ -17,7 +17,6 @@ public class ControllerAdvice {
     @ExceptionHandler(NoResultException.class)
     @ResponseBody
     public String noResultExceptionHandler() {
-        System.out.println("------------From Exception Handler Controller : NoResultException");
         log.warning("WARNING: Sorry. No Result Exception: No entity found for query");
         return "Sorry. No Result Exception: No entity found for query";
     }
@@ -26,7 +25,6 @@ public class ControllerAdvice {
     @ExceptionHandler(NumberFormatException.class)
     @ResponseBody
     public String numberFormatExceptionHandler() {
-        System.out.println("------------From Exception Handler Controller : NumberFormatException");
         log.warning("WARNING: Sorry. Number Format Exception.");
         return "Sorry. Number Format Exception.";
     }
