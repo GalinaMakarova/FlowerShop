@@ -1,8 +1,11 @@
 package com.shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +20,9 @@ public class Country {
     private Long id;
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "countryList")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(mappedBy = "countryList", cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties("countryList")
     private List<Flower> flowerList;
 
     @Override

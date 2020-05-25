@@ -1,0 +1,25 @@
+[{
+  "name": "Rose",
+  "store": {
+    "name": "SPAR",
+    "address": "SomeCity, SomeStreet#1",
+    "employee": {
+      "name": "Nobody"
+    }
+  },
+  "countryList": [{
+    "name": "Russia"
+  }]
+}, {
+  "name": "Tulip",
+  "store": {
+    "name": "AUCHAN",
+    "address": "OtherCity, Street#000",
+    "employee": {
+      "name": "Dr.Who"
+    }
+  },
+  "countryList": [{
+    "name": "England"
+  }]
+}]

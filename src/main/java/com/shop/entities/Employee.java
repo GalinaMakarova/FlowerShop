@@ -1,6 +1,7 @@
 package com.shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Employee {
     private String name;
 
     @OneToOne(mappedBy = "employee")
+    @JsonIgnoreProperties("employee")
     private Store store;
 
     @Override
