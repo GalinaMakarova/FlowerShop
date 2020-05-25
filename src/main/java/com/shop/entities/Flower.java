@@ -3,6 +3,7 @@ package com.shop.entities;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Objects;
 
 @Data
 @Entity
+@NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Flower.class)
 public class Flower {
     @Id
@@ -17,10 +19,13 @@ public class Flower {
     private Long id;
     private String name;
 
+    public Flower(String name) {
+        this.name = name;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_store")
     private Store store;
-
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "flower_country",

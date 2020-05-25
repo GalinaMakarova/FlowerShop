@@ -16,7 +16,7 @@ import java.util.Properties;
 
 @Configuration
 public class PersistenceConfig {
-    @Value("${packageName}")
+    @Value("${packageName:com.shop}")
     private String packageName;
 
     org.springframework.core.env.Environment env;

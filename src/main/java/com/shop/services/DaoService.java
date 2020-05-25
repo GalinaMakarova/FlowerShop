@@ -7,7 +7,7 @@ public interface DaoService<T> {
 
     T findById(Long id);
 
-    void add(T t);
+    void add(T t) throws Exception;
 
     void update(T t);
 

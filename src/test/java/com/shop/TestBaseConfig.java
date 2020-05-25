@@ -21,7 +21,7 @@ public class TestBaseConfig {
     @Autowired
     private Environment env;
 
-    @Value("${packageName}")
+    @Value("${packageName:com.shop}")
     private String packageName;
 
     @Bean

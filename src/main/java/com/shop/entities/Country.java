@@ -2,7 +2,9 @@ package com.shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,12 +12,17 @@ import java.util.Objects;
 
 @Data
 @Entity
+@NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Country.class)
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Country(String name) {
+        this.name = name;
+    }
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "countryList")
     private List<Flower> flowerList;

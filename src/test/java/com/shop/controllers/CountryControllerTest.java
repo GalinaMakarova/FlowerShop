@@ -26,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         TestBaseConfig.class,
@@ -46,13 +48,8 @@ class CountryControllerTest {
     @Autowired
     DaoService<Country> countryService;
 
-    static Country country1 = new Country();
-    static Country country2 = new Country();
-
-    static {
-        country1.setName("Russia");
-        country2.setName("England");
-    }
+    static Country country1 = new Country(RandomStringUtils.randomAlphabetic(7));
+    static Country country2 = new Country(RandomStringUtils.randomAlphabetic(5));
 
     @BeforeAll
     void init() {
@@ -82,8 +79,7 @@ class CountryControllerTest {
     @SneakyThrows
     @Test
     void addCountry() {
-        Country country = new Country();
-        country.setName("COUNTRY_TEST_NEW");
+        Country country = new Country(RandomStringUtils.randomAlphabetic(6));
         String json = new ObjectMapper().writeValueAsString(country);
         mvc.perform(MockMvcRequestBuilders
                 .post("/countries/add")
@@ -109,7 +105,7 @@ class CountryControllerTest {
     @Test
     void updateCountry() {
         Long id = 1L;
-        String newName = "RU_NEW";
+        String newName = RandomStringUtils.randomAlphabetic(4);
         ObjectMapper mapper = new ObjectMapper();
         Country country = countryService.findById(id);
         country.setName(newName);

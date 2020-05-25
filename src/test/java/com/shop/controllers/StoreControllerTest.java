@@ -1,10 +1,12 @@
 package com.shop.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shop.entities.Store;
 import com.shop.services.DaoService;
 import com.shop.TestBaseConfig;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -50,13 +52,8 @@ class StoreControllerTest {
     @Autowired
     DaoService<Store> storeService;
 
-    static Store store1 = new Store();
-    static Store store2 = new Store();
-
-    static {
-        store1.setName("SPAR");
-        store2.setName("Auchan");
-    }
+    static Store store1 = new Store(RandomStringUtils.randomAlphabetic(7), RandomStringUtils.randomAlphabetic(4));
+    static Store store2 = new Store(RandomStringUtils.randomAlphabetic(5));
 
     @AfterAll
     void cleanUp() {
@@ -74,9 +71,8 @@ class StoreControllerTest {
         em.getTransaction().commit();
     }
 
-    @SneakyThrows
     @Test
-    void getStores() {
+    void getStores() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                 .get("/stores")
                 .accept(MediaType.APPLICATION_JSON))
@@ -84,11 +80,9 @@ class StoreControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @SneakyThrows
     @Test
-    void addStore() {
-        Store store = new Store();
-        store.setName("STORE_TEST_NEW");
+    void addStore() throws Exception {
+        Store store = new Store(RandomStringUtils.randomAlphabetic(4), RandomStringUtils.randomAlphabetic(4));
         String json = new ObjectMapper().writeValueAsString(store);
         mvc.perform(MockMvcRequestBuilders
                 .post("/stores/add")
@@ -98,9 +92,8 @@ class StoreControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @SneakyThrows
     @Test
-    void findStoreById() {
+    void findStoreById() throws Exception {
         Long id = 1L;
         mvc.perform(MockMvcRequestBuilders
                 .get("/stores/{id}", id)
@@ -110,11 +103,10 @@ class StoreControllerTest {
                 .andExpect(jsonPath("$.id").value(id));
     }
 
-    @SneakyThrows
     @Test
-    void updateStore() {
+    void updateStore() throws Exception {
         Long id = 1L;
-        String newName = "Nobody_NEW";
+        String newName = RandomStringUtils.randomAlphabetic(8);
         ObjectMapper mapper = new ObjectMapper();
         Store store = storeService.findById(id);
         store.setName(newName);
@@ -133,9 +125,8 @@ class StoreControllerTest {
                 .andExpect(jsonPath("$.name").value(newName));
     }
 
-    @SneakyThrows
     @Test
-    void deleteStore() {
+    void deleteStore() throws Exception {
         Long id = 2L;
         mvc.perform(MockMvcRequestBuilders
                 .get("/stores/delete/{id}", id))

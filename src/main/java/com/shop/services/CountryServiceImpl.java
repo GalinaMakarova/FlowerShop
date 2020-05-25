@@ -3,7 +3,6 @@ package com.shop.services;
 import com.shop.dao.CountryRepository;
 import com.shop.dao.DaoCRUD;
 import com.shop.entities.Country;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.logging.Logger;
 
 @Service
 public class CountryServiceImpl implements DaoService<Country> {
-    @Autowired
     private final DaoCRUD<Country> countryDAO;
     private static final Logger log = Logger.getLogger(CountryServiceImpl.class.getName());
 
@@ -32,13 +30,14 @@ public class CountryServiceImpl implements DaoService<Country> {
     }
 
     @Override
-    public void add(Country country) {
+    public void add(Country country) throws Exception {
         List<Country> countries = findAll();
         if (!countries.contains(country)) {
             countryDAO.add(country);
             log.info("Country added: " + country.toString());
         } else {
-            log.info("WARNING: " + country.toString() + " is already in the repository");
+            log.warning("WARNING: " + country.toString() + " is already in the repository");
+            throw new Exception("The object is already in the repository");
         }
 
     }
