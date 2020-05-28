@@ -14,48 +14,48 @@ import javax.persistence.EntityManagerFactory;
 import java.util.Objects;
 import java.util.Properties;
 
-@Configuration
+//@Configuration
 public class PersistenceConfig {
-    @Value("${packageName:com.shop}")
-    private String packageName;
-
-    org.springframework.core.env.Environment env;
-
-    public PersistenceConfig(org.springframework.core.env.Environment env) {
-        this.env = env;
-    }
-
-    @Bean
-    public EntityManager entityManager() {
-        return Objects.requireNonNull(entityManagerFactory().getObject()).createEntityManager();
-    }
-
-    @Bean("entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
-        entityManagerFactory.setPackagesToScan(packageName);
-        entityManagerFactory.setJpaProperties(hibernateJpaProperties());
-        return entityManagerFactory;
-    }
-
-    @Bean
-    public JpaTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf) {
-        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(emf);
-        return jpaTransactionManager;
-    }
-
-    private Properties hibernateJpaProperties() {
-        Properties props = new Properties();
-        props.put(org.hibernate.cfg.Environment.DRIVER, env.getProperty("spring.datasource.driverClassName"));
-        props.put(org.hibernate.cfg.Environment.URL, env.getProperty("spring.datasource.url"));
-        props.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
-        props.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
-        props.put(org.hibernate.cfg.Environment.USER, env.getProperty("spring.datasource.username"));
-        props.put(org.hibernate.cfg.Environment.PASS, env.getProperty("spring.datasource.password"));
-        return props;
-    }
+//    @Value("${packageName:com.shop}")
+//    private String packageName;
+//
+//    org.springframework.core.env.Environment env;
+//
+//    public PersistenceConfig(org.springframework.core.env.Environment env) {
+//        this.env = env;
+//    }
+//
+//    @Bean
+//    public EntityManager entityManager() {
+//        return Objects.requireNonNull(entityManagerFactory().getObject()).createEntityManager();
+//    }
+//
+//    @Bean("entityManagerFactory")
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+//        entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//        entityManagerFactory.setJpaDialect(new HibernateJpaDialect());
+//        entityManagerFactory.setPackagesToScan(packageName);
+//        entityManagerFactory.setJpaProperties(hibernateJpaProperties());
+//        return entityManagerFactory;
+//    }
+//
+//    @Bean
+//    public JpaTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf) {
+//        JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+//        jpaTransactionManager.setEntityManagerFactory(emf);
+//        return jpaTransactionManager;
+//    }
+//
+//    private Properties hibernateJpaProperties() {
+//        Properties props = new Properties();
+//        props.put(org.hibernate.cfg.Environment.DRIVER, env.getProperty("spring.datasource.driverClassName"));
+//        props.put(org.hibernate.cfg.Environment.URL, env.getProperty("spring.datasource.url"));
+//        props.put(org.hibernate.cfg.Environment.SHOW_SQL, "true");
+//        props.put(org.hibernate.cfg.Environment.HBM2DDL_AUTO, "create");
+//        props.put(org.hibernate.cfg.Environment.USER, env.getProperty("spring.datasource.username"));
+//        props.put(org.hibernate.cfg.Environment.PASS, env.getProperty("spring.datasource.password"));
+//        return props;
+//    }
 
 }

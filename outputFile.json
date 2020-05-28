@@ -1,0 +1,1 @@
+[{"id":1,"name":"Rose","store":{"id":1,"name":"SPAR","address":"SomeCity, SomeStreet#1","employee":{"id":1,"name":"Nobody"}},"countryList":[{"id":1,"name":"Russia"}]},{"id":2,"name":"Tulip","store":{"id":2,"name":"AUCHAN","address":"OtherCity, Street#000","employee":{"id":2,"name":"Dr.Who"}},"countryList":[{"id":2,"name":"England"}]}]

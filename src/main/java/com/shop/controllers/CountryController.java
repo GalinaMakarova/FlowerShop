@@ -2,17 +2,17 @@ package com.shop.controllers;
 
 import com.shop.entities.Country;
 import com.shop.services.DaoService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/countries")
 public class CountryController {
     private final DaoService<Country> countryService;
 
-    public CountryController(@Qualifier("countryService") DaoService<Country> countryService) {
+    public CountryController(DaoService<Country> countryService) {
         this.countryService = countryService;
     }
 
@@ -22,12 +22,12 @@ public class CountryController {
     }
 
     @PostMapping(path = "/add")
-    public void addCountry(@RequestBody Country country) throws Exception {
+    public void addCountry(@RequestBody Country country) {
         countryService.add(country);
     }
 
     @GetMapping(path = "/{id}")
-    public Country findCountryById(@PathVariable(name = "id") Long id) {
+    public Optional<Country> findCountryById(@PathVariable(name = "id") Long id) {
         return countryService.findById(id);
     }
 
@@ -38,6 +38,6 @@ public class CountryController {
 
     @GetMapping(path = "/delete/{id}")
     public void deleteCountry(@PathVariable(name = "id") Long id) {
-        countryService.delete(id);
+        countryService.deleteById(id);
     }
 }

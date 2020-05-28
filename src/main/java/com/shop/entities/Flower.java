@@ -1,9 +1,12 @@
 package com.shop.entities;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,19 +22,22 @@ public class Flower {
     private Long id;
     private String name;
 
-    public Flower(String name) {
+    public Flower(String name){
         this.name = name;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "fk_store")
+    @JsonIgnoreProperties("flowers")
     private Store store;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "flower_country",
             joinColumns = @JoinColumn(name = "flower_id"),
             inverseJoinColumns = @JoinColumn(name = "country_id")
     )
+    @JsonIgnoreProperties("flowerList")
     private List<Country> countryList;
 
     @Override

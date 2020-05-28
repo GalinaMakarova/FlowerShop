@@ -12,51 +12,51 @@ import org.springframework.core.env.Environment;
 
 import javax.persistence.EntityManager;
 
-@Configuration
+//@Configuration
 public class BaseConfig {
-    private Environment environment;
-
-    public BaseConfig(Environment environment) {
-        this.environment = environment;
-    }
-
-    @Bean
-    public DaoCRUD<Country> countryDAO(EntityManager entityManager) {
-        return new CountryRepository(entityManager);
-    }
-
-    @Bean
-    public DaoService<Country> countryService(DaoCRUD<Country> countryDAO) {
-        return new CountryServiceImpl((CountryRepository) countryDAO);
-    }
-
-    @Bean
-    public DaoCRUD<Employee> employeeDAO(EntityManager entityManager) {
-        return new EmployeeRepository(entityManager);
-    }
-
-    @Bean
-    public DaoService<Employee> employeeService(DaoCRUD<Employee> employeeDAO) {
-        return new EmployeeServiceImpl((EmployeeRepository) employeeDAO);
-    }
-
-    @Bean
-    public DaoCRUD<Flower> flowerDAO(EntityManager entityManager) {
-        return new FlowerRepository(entityManager);
-    }
-
-    @Bean
-    public DaoService<Flower> flowerService(DaoCRUD<Flower> flowerDAO) {
-        return new FlowerServiceImpl((FlowerRepository) flowerDAO);
-    }
-
-    @Bean
-    public DaoCRUD<Store> storeDAO(EntityManager entityManager) {
-        return new StoreRepository(entityManager);
-    }
-
-    @Bean
-    public DaoService<Store> storeService(DaoCRUD<Store> storeDAO) {
-        return new StoreServiceImpl((StoreRepository) storeDAO);
-    }
+//    private Environment environment;
+//
+//    public BaseConfig(Environment environment) {
+//        this.environment = environment;
+//    }
+//
+//    @Bean
+//    public DaoCRUD<Country> countryDAO(EntityManager entityManager) {
+//        return new CountryRepository(entityManager);
+//    }
+//
+//    @Bean
+//    public DaoService<Country> countryService(DaoCRUD<Country> countryDAO) {
+//        return new CountryServiceImpl((CountryRepository) countryDAO);
+//    }
+//
+//    @Bean
+//    public DaoCRUD<Employee> employeeDAO(EntityManager entityManager) {
+//        return new EmployeeRepository(entityManager);
+//    }
+//
+//    @Bean
+//    public DaoService<Employee> employeeService(DaoCRUD<Employee> employeeDAO) {
+//        return new EmployeeServiceImpl((EmployeeRepository) employeeDAO);
+//    }
+//
+//    @Bean
+//    public DaoCRUD<Flower> flowerDAO(EntityManager entityManager) {
+//        return new FlowerRepository(entityManager);
+//    }
+//
+//    @Bean
+//    public DaoService<Flower> flowerService(DaoCRUD<Flower> flowerDAO) {
+//        return new FlowerServiceImpl((FlowerRepository) flowerDAO);
+//    }
+//
+//    @Bean
+//    public DaoCRUD<Store> storeDAO(EntityManager entityManager) {
+//        return new StoreRepository(entityManager);
+//    }
+//
+//    @Bean
+//    public DaoService<Store> storeService(DaoCRUD<Store> storeDAO) {
+//        return new StoreServiceImpl((StoreRepository) storeDAO);
+//    }
 }

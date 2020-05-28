@@ -5,6 +5,7 @@ import com.shop.entities.Employee;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -22,7 +23,7 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
     }
 
     @Override
-    public Employee findById(Long id) {
+    public Optional<Employee> findById(Long id) {
         return employeeRepository.findById(id);
     }
 
@@ -30,7 +31,7 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
     public void add(Employee employee) {
         List<Employee> employees = findAll();
         if (!employees.contains(employee)) {
-            employeeRepository.add(employee);
+            employeeRepository.save(employee);
             log.info("Employee added: " + employee.toString());
         } else {
             String name = employee.getName();
@@ -42,21 +43,38 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
                 name = name + 1;
             }
             employee.setName(name);
-            employeeRepository.add(employee);
+            employeeRepository.save(employee);
             log.info("Employee copy added: " + employee.toString());
         }
     }
 
     @Override
     public void update(Employee employee) {
-        employeeRepository.update(employee);
+        employeeRepository.save(employee);
         log.info("Employee updated: " + employee.toString());
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         String bufStr = employeeRepository.findById(id).toString();
-        employeeRepository.delete(id);
-        log.info("Employee removed: " + bufStr);
+        Optional<Employee> employeeFromDB = employeeRepository.findById(id);
+        if (employeeFromDB.isPresent()) {
+            employeeRepository.deleteById(id);
+            log.info("Employee removed: " + bufStr);
+        } else {
+            log.warning("WARNING: Employee with ID=" + id + " is not found!");
+        }
+    }
+
+    @Override
+    public void delete(Employee employee) {
+        String bufStr = employee.toString();
+        Optional<Employee> employeeFromDB = employeeRepository.findById(employee.getId());
+        if (employeeFromDB.isPresent()) {
+            employeeRepository.delete(employee);
+            log.info("Employee removed: " + bufStr);
+        } else {
+            log.warning("WARNING: " + employee.toString() + " is not found!");
+        }
     }
 }

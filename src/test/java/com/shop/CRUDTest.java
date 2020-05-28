@@ -22,9 +22,6 @@ import java.util.Collections;
 import org.apache.commons.lang3.RandomStringUtils;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {
-        TestBaseConfig.class
-})
 @TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CRUDTest {

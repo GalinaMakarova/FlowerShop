@@ -1,43 +1,43 @@
 package com.shop.controllers;
 
-import com.shop.dao.DaoCRUD;
+import com.shop.dao.EmployeeRepository;
 import com.shop.entities.Employee;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/employees")
 public class EmployeeController {
-    private final DaoCRUD<Employee> employeeDAO;
+    private final EmployeeRepository employeeRepository;
 
-    public EmployeeController(@Qualifier("employeeDAO") DaoCRUD<Employee> employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @GetMapping
-    public Collection<Employee> getEmployees() {
-        return employeeDAO.findAll();
+    public List<Employee> getEmployees() {
+        return employeeRepository.findAll();
     }
 
     @PostMapping(path = "/add")
     public void addEmployee(@RequestBody Employee employee) {
-        employeeDAO.add(employee);
+        employeeRepository.save(employee);
     }
 
     @GetMapping(path = "/{id}")
-    public Employee findEmployeeById(@PathVariable(name = "id") Long id) {
-        return employeeDAO.findById(id);
+    public Optional<Employee> findEmployeeById(@PathVariable(name = "id") Long id) {
+        return employeeRepository.findById(id);
     }
 
     @PostMapping(path = "/update")
     public void updateEmployee(@RequestBody Employee employee) {
-        employeeDAO.update(employee);
+        employeeRepository.save(employee);
     }
 
     @GetMapping(path = "/delete/{id}")
     public void deleteEmployee(@PathVariable(name = "id") Long id) {
-        employeeDAO.delete(id);
+        employeeRepository.deleteById(id);
     }
 }

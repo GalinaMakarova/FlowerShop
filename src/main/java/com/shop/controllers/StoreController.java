@@ -1,43 +1,43 @@
 package com.shop.controllers;
 
-import com.shop.dao.DaoCRUD;
+import com.shop.dao.StoreRepository;
 import com.shop.entities.Store;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/stores")
 public class StoreController {
-    private final DaoCRUD<Store> storeDAO;
+    private final StoreRepository storeRepository;
 
-    public StoreController(@Qualifier("storeDAO") DaoCRUD<Store> storeDAO) {
-        this.storeDAO = storeDAO;
+    public StoreController(StoreRepository storeRepository) {
+        this.storeRepository = storeRepository;
     }
 
     @GetMapping
-    public Collection<Store> getStores() {
-        return storeDAO.findAll();
+    public List<Store> getStores() {
+        return storeRepository.findAll();
     }
 
     @PostMapping(path = "/add")
     public void addStore(@RequestBody Store store) {
-        storeDAO.add(store);
+        storeRepository.save(store);
     }
 
     @GetMapping(path = "/{id}")
-    public Store findStoreById(@PathVariable(name = "id") Long id) {
-        return storeDAO.findById(id);
+    public Optional<Store> findStoreById(@PathVariable(name = "id") Long id) {
+        return storeRepository.findById(id);
     }
 
     @PostMapping(path = "/update")
     public void updateStore(@RequestBody Store store) {
-        storeDAO.update(store);
+        storeRepository.save(store);
     }
 
     @GetMapping(path = "/delete/{id}")
     public void deleteStore(@PathVariable(name = "id") Long id) {
-        storeDAO.delete(id);
+        storeRepository.deleteById(id);
     }
 }
