@@ -12,5 +12,10 @@ The project has 4 entities:
 * Country and Flower have association ManyToMany, Country can exist without Flower, Flower without Country - not
 * Shop and Flower have association OneToMany, one Shop for Many Flower objects. Flower without Shop cannot exist, Shop without Flower - can.
 
+---
 
-# For checking please start all tests #
+#CHANGES: #
+1. Created 4 tests: 1 for JPA, 1 for controllers, 1 for services and 1 for ML part
+2. Changed repository part to JpaRepository
+3. Changed some services for normal testing
+4. after #3 changed some controllers
