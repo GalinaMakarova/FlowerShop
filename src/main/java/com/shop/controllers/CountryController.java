@@ -22,7 +22,7 @@ public class CountryController {
     }
 
     @PostMapping(path = "/add")
-    public void addCountry(@RequestBody Country country) {
+    public void addCountry(@RequestBody Country country) throws Exception {
         countryService.add(country);
     }
 

@@ -19,11 +19,13 @@ import javax.persistence.EntityManagerFactory;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         TestBaseConfig.class
 })
-@TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CRUDTest {
     @Autowired
@@ -33,23 +35,16 @@ class CRUDTest {
     public void crudAllEntitiesAddTest() {
         EntityManager em = entityManagerFactory.createEntityManager();
 
-        Country country1 = new Country();
-        country1.setName("Russia");
-        Country country2 = new Country();
-        country2.setName("England");
+        Country country1 = new Country(RandomStringUtils.randomAlphabetic(7));
+        Country country2 = new Country(RandomStringUtils.randomAlphabetic(7));
 
-        Employee employee1 = new Employee();
-        employee1.setName("Nobody");
+        Employee employee1 = new Employee(RandomStringUtils.randomAlphabetic(12));
 
-        Store store1 = new Store();
-        store1.setName("SPAR");
-        store1.setAddress("SomeCity, SomeStreet#1");
+        Store store1 = new Store(RandomStringUtils.randomAlphabetic(5), RandomStringUtils.randomAlphabetic(20));
         store1.setEmployee(employee1);
 
-        Flower flower1 = new Flower();
-        flower1.setName("Rose");
-        Flower flower2 = new Flower();
-        flower2.setName("Tulip");
+        Flower flower1 = new Flower(RandomStringUtils.randomAlphabetic(7));
+        Flower flower2 = new Flower(RandomStringUtils.randomAlphabetic(7));
 
         flower1.setCountryList(Collections.singletonList(country1));
         flower2.setCountryList(Arrays.asList(country1, country2));

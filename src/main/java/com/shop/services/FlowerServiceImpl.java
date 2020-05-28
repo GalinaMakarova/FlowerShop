@@ -2,7 +2,6 @@ package com.shop.services;
 
 import com.shop.dao.FlowerRepository;
 import com.shop.entities.Flower;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.logging.Logger;
 
 @Service
 public class FlowerServiceImpl implements DaoService<Flower> {
-    @Autowired
     private final FlowerRepository flowerRepository;
     private static final Logger log = Logger.getLogger(FlowerServiceImpl.class.getName());
 
@@ -29,13 +27,14 @@ public class FlowerServiceImpl implements DaoService<Flower> {
     }
 
     @Override
-    public void add(Flower flower) {
+    public void add(Flower flower) throws Exception {
         List<Flower> flowers = findAll();
         if (!flowers.contains(flower)) {
             flowerRepository.add(flower);
             log.info("Flower added: " + flower.toString());
         } else {
             log.info("WARNING: " + flower.toString() + " is already in the repository");
+            throw new Exception("The object is already in the repository");
         }
     }
 

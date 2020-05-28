@@ -33,7 +33,6 @@ public class StoreController {
 
     @PostMapping(path = "/update")
     public void updateStore(@RequestBody Store store) {
-        //store.setName(store.getName() + "_NEW");
         storeDAO.update(store);
     }
 

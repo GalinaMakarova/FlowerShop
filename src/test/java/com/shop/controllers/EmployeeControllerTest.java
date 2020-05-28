@@ -5,6 +5,7 @@ import com.shop.entities.Employee;
 import com.shop.services.DaoService;
 import com.shop.TestBaseConfig;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @WebAppConfiguration
 @EnableWebMvc
-@TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EmployeeControllerTest {
     private MockMvc mvc;
@@ -50,13 +51,8 @@ class EmployeeControllerTest {
     @Autowired
     DaoService<Employee> employeeService;
 
-    static Employee employee1 = new Employee();
-    static Employee employee2 = new Employee();
-
-    static {
-        employee1.setName("Nobody");
-        employee2.setName("Dr.Who");
-    }
+    static Employee employee1 = new Employee(RandomStringUtils.randomAlphabetic(7));
+    static Employee employee2 = new Employee(RandomStringUtils.randomAlphabetic(5));
 
     @AfterAll
     void cleanUp() {
@@ -87,8 +83,7 @@ class EmployeeControllerTest {
     @SneakyThrows
     @Test
     void addEmployee() {
-        Employee employee = new Employee();
-        employee.setName("EMPLOYEE_TEST_NEW");
+        Employee employee = new Employee(RandomStringUtils.randomAlphabetic(4));
         String json = new ObjectMapper().writeValueAsString(employee);
         mvc.perform(MockMvcRequestBuilders
                 .post("/employees/add")
@@ -114,7 +109,7 @@ class EmployeeControllerTest {
     @Test
     void updateEmployee() {
         Long id = 1L;
-        String newName = "Nobody_NEW";
+        String newName = RandomStringUtils.randomAlphabetic(6);
         ObjectMapper mapper = new ObjectMapper();
         Employee employee = employeeService.findById(id);
         employee.setName(newName);

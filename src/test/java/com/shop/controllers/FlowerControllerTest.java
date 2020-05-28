@@ -5,6 +5,7 @@ import com.shop.entities.Flower;
 import com.shop.services.DaoService;
 import com.shop.TestBaseConfig;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 @WebAppConfiguration
 @EnableWebMvc
-@TestPropertySource("classpath:application.properties")
+@TestPropertySource("classpath:test.properties")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class FlowerControllerTest {
     private MockMvc mvc;
@@ -50,13 +51,8 @@ class FlowerControllerTest {
     @Autowired
     DaoService<Flower> flowerService;
 
-    static Flower flower1 = new Flower();
-    static Flower flower2 = new Flower();
-
-    static {
-        flower1.setName("Rose");
-        flower2.setName("Tulip");
-    }
+    static Flower flower1 = new Flower(RandomStringUtils.randomAlphabetic(7));
+    static Flower flower2 = new Flower(RandomStringUtils.randomAlphabetic(5));
 
     @AfterAll
     void cleanUp() {
@@ -88,8 +84,7 @@ class FlowerControllerTest {
     @SneakyThrows
     @Test
     void addFlower() {
-        Flower flower = new Flower();
-        flower.setName("Rose_NEW");
+        Flower flower = new Flower(RandomStringUtils.randomAlphabetic(4));
         String json = new ObjectMapper().writeValueAsString(flower);
         mvc.perform(MockMvcRequestBuilders
                 .post("/flowers/add")
@@ -115,7 +110,7 @@ class FlowerControllerTest {
     @Test
     void updateFlower() {
         Long id = 1L;
-        String newName = "FLOWER_TEST_NEW";
+        String newName = RandomStringUtils.randomAlphabetic(6);
         ObjectMapper mapper = new ObjectMapper();
         Flower flower = flowerService.findById(id);
         flower.setName(newName);
