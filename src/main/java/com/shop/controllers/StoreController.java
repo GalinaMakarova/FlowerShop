@@ -31,12 +31,12 @@ public class StoreController {
         return storeRepository.findById(id);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public void updateStore(@RequestBody Store store) {
         storeRepository.save(store);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public void deleteStore(@PathVariable(name = "id") Long id) {
         storeRepository.deleteById(id);
     }

@@ -31,13 +31,18 @@ public class CountryController {
         return countryService.findById(id);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public void updateCountry(@RequestBody Country country) {
         countryService.update(country);
     }
 
-    @GetMapping(path = "/delete/{id}")
-    public void deleteCountry(@PathVariable(name = "id") Long id) {
+    @DeleteMapping(path = "/delete/{id}")
+    public void deleteCountryById(@PathVariable(name = "id") Long id) {
         countryService.deleteById(id);
+    }
+
+    @DeleteMapping(path = "/delete")
+    public void deleteCountry(@RequestBody Country country) {
+        countryService.delete(country);
     }
 }

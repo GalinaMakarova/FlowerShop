@@ -1,29 +1,27 @@
-package com.shop;
+package com.shop.dao;
 
 import com.shop.entities.Country;
 import com.shop.entities.Employee;
 import com.shop.entities.Flower;
 import com.shop.entities.Store;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = com.shop.SpringcoreApplication.class)
 @TestPropertySource("classpath:test.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CRUDTest {
     @Autowired
     private EntityManagerFactory entityManagerFactory;

@@ -8,9 +8,9 @@ public interface DaoService<T> {
 
     Optional<T> findById(Long id);
 
-    void add(T t);
+    T add(T t);
 
-    void update(T t);
+    boolean update(T t);
 
     void deleteById(Long id);
 

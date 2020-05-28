@@ -1,33 +1,43 @@
-package com.shop.mapper;
+package com.shop.mappersAndFiles;
 
 import com.shop.entities.Country;
 import com.shop.entities.Employee;
 import com.shop.entities.Flower;
 import com.shop.entities.Store;
-import com.shop.mappersAndFiles.GenericMapper;
-import lombok.SneakyThrows;
+import com.shop.services.DaoService;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
-@TestPropertySource("classpath:application.properties")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class MapperTest {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = com.shop.SpringcoreApplication.class)
+@TestPropertySource("classpath:test.properties")
+public class GenericMapperTest {
 
     @Autowired
-    private EntityManagerFactory entityManagerFactory;
+    EntityManagerFactory entityManagerFactory;
 
-    @SneakyThrows
+    @Autowired
+    EntityManager entityManager;
+
+    @Autowired
+    GenericMapper<Flower> mapper;
+
+    @Autowired
+    DaoService<Country> companyServiceDAO;
+
     @Test
     public void writeToJsonMapperTest() {
         GenericMapper<Flower> mapper = new GenericMapper<>();
@@ -66,9 +76,12 @@ public class MapperTest {
 
         em.close();
         mapper.mapListToJson(List.of(flower1, flower2));
+
+        File outputFile = new File("outputFile.json");
+        assertNotNull(outputFile);
     }
 
-    @SneakyThrows
+
     @Test
     public void readFromJsonMapperTest() {
         GenericMapper<Flower> mapper = new GenericMapper<>();

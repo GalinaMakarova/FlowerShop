@@ -28,20 +28,28 @@ public class FlowerServiceImpl implements DaoService<Flower> {
     }
 
     @Override
-    public void add(Flower flower) {
+    public Flower add(Flower flower) {
         List<Flower> flowers = findAll();
         if (!flowers.contains(flower)) {
-            flowerRepository.save(flower);
             log.info("Flower added: " + flower.toString());
+            return flowerRepository.save(flower);
         } else {
             log.info("WARNING: " + flower.toString() + " is already in the repository");
+            return null;
         }
     }
 
     @Override
-    public void update(Flower flower) {
-        flowerRepository.save(flower);
-        log.info("Flower updated: " + flower.toString());
+    public boolean update(Flower flower) {
+        Optional<Flower> flowerFromDB = flowerRepository.findById(flower.getId());
+        if (flowerFromDB.isPresent()) {
+            flowerRepository.save(flower);
+            log.info("Flower updated: " + flower.toString());
+            return true;
+        } else {
+            log.warning("WARNING: " + flower.toString() + " is not found!");
+            return false;
+        }
     }
 
     @Override

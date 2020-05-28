@@ -31,12 +31,12 @@ public class EmployeeController {
         return employeeRepository.findById(id);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public void updateEmployee(@RequestBody Employee employee) {
         employeeRepository.save(employee);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public void deleteEmployee(@PathVariable(name = "id") Long id) {
         employeeRepository.deleteById(id);
     }

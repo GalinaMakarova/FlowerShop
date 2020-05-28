@@ -4,7 +4,6 @@ import com.shop.dao.CountryRepository;
 import com.shop.entities.Country;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -31,20 +30,28 @@ public class CountryServiceImpl implements DaoService<Country> {
     }
 
     @Override
-    public void add(Country country) {
+    public Country add(Country country) {
         List<Country> countries = findAll();
         if (!countries.contains(country)) {
-            countryRepository.save(country);
             log.info("Country added: " + country.toString());
+            return countryRepository.save(country);
         } else {
             log.warning("WARNING: " + country.toString() + " is already in the repository");
+            return null;
         }
     }
 
     @Override
-    public void update(Country country) {
-        countryRepository.save(country);
-        log.info("Country updated: " + country.toString());
+    public boolean update(Country country) {
+        Optional<Country> countryFromDB = countryRepository.findById(country.getId());
+        if (countryFromDB.isPresent()) {
+            log.info("Country updated: " + country.toString());
+            countryRepository.save(country);
+            return true;
+        } else {
+            log.warning("WARNING: " + country.toString() + " is not found!");
+            return false;
+        }
     }
 
     @Override

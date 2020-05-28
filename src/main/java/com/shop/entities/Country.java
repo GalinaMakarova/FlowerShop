@@ -26,6 +26,11 @@ public class Country {
         this.name = name;
     }
 
+    public Country(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
     @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "countryList", cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties("countryList")

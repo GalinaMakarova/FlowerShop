@@ -14,8 +14,8 @@ The project has 4 entities:
 
 ---
 
-#Created: #
-1. JPA part - Entities, Repositories, Services
-2. Controllers for all entities
-3. Test for all controllers
-4. Test for JPA part - add operation only
+#CHANGES: #
+1. Created 4 tests: 1 for JPA, 1 for controllers, 1 for services and 1 for ML part
+2. Changed repository part to JpaRepository
+3. Changed some services for normal testing
+4. after #3 changed some controllers

@@ -28,15 +28,22 @@ public class StoreServiceImpl implements DaoService<Store> {
     }
 
     @Override
-    public void add(Store store) {
-        storeRepository.save(store);
+    public Store add(Store store) {
         log.info("Store added: " + store.toString());
+        return storeRepository.save(store);
     }
 
     @Override
-    public void update(Store store) {
-        storeRepository.save(store);
-        log.info("Store updated: " + store.toString());
+    public boolean update(Store store) {
+        Optional<Store> storeFromDB = storeRepository.findById(store.getId());
+        if (storeFromDB.isPresent()) {
+            storeRepository.save(store);
+            log.info("Store updated: " + store.toString());
+            return true;
+        } else {
+            log.warning("WARNING: " + store.toString() + " is not found!");
+            return false;
+        }
     }
 
     @Override

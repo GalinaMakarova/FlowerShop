@@ -31,12 +31,12 @@ public class FlowerController {
         return flowerRepository.findById(id);
     }
 
-    @PostMapping(path = "/update")
+    @PutMapping(path = "/update")
     public void updateFlower(@RequestBody Flower flower) {
         flowerRepository.save(flower);
     }
 
-    @GetMapping(path = "/delete/{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public void deleteFlower(@PathVariable(name = "id") Long id) {
         flowerRepository.deleteById(id);
     }

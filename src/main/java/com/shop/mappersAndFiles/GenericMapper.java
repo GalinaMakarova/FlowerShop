@@ -1,7 +1,7 @@
 package com.shop.mappersAndFiles;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@Component
 public class GenericMapper<T> {
     public List<T> mapJsonToList(Class<T> exampleObj) {
         try (InputStream reader = new FileInputStream("inputFile.json")) {

@@ -28,10 +28,9 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
     }
 
     @Override
-    public void add(Employee employee) {
+    public Employee add(Employee employee) {
         List<Employee> employees = findAll();
         if (!employees.contains(employee)) {
-            employeeRepository.save(employee);
             log.info("Employee added: " + employee.toString());
         } else {
             String name = employee.getName();
@@ -43,15 +42,22 @@ public class EmployeeServiceImpl implements DaoService<Employee> {
                 name = name + 1;
             }
             employee.setName(name);
-            employeeRepository.save(employee);
             log.info("Employee copy added: " + employee.toString());
         }
+        return employeeRepository.save(employee);
     }
 
     @Override
-    public void update(Employee employee) {
-        employeeRepository.save(employee);
-        log.info("Employee updated: " + employee.toString());
+    public boolean update(Employee employee) {
+        Optional<Employee> employeeFromDB = employeeRepository.findById(employee.getId());
+        if (employeeFromDB.isPresent()) {
+            employeeRepository.save(employee);
+            log.info("Employee updated: " + employee.toString());
+            return true;
+        } else {
+            log.warning("WARNING: " + employee.toString() + " is not found!");
+            return false;
+        }
     }
 
     @Override
